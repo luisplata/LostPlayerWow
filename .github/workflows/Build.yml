@@ -21,8 +21,7 @@ jobs:
         unityVersion:
           - 2020.3.11f1
         targetPlatform:
-          - StandaloneWindows64 
-          - StandaloneOSX
+          - Android
           #- iOS
     steps:
       - uses: actions/checkout@v2
@@ -65,7 +64,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           versioning: Semantic
-          buildName: FanGameMortalKombat
+          buildName: LostPlayerWoW
           allowDirtyBuild: true
       - uses: actions/upload-artifact@v2
         with:
