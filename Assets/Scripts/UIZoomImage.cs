@@ -1,7 +1,7 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIZoomImage : MonoBehaviour, IScrollHandler
 {
@@ -11,40 +11,26 @@ public class UIZoomImage : MonoBehaviour, IScrollHandler
     private float zoomSpeed = 0.1f;
     [SerializeField]
     private float maxZoom = 10f;
+
+    [SerializeField] private Button up;
+    [SerializeField] private Button down;
     Vector2 firstTouchPrevPos, secondTouchPrevPos;
 
     float touchesPrevPosDifference, touchesCurPosDifference, zoomModifier;
-    [SerializeField]
-    float zoomModifierSpeed = 0.1f;
 
     [SerializeField] private TextMeshProUGUI debug;
 
     private void Awake()
     {
         initialScale = transform.localScale;
-    }
-
-    private float zoomBefore;
-    private void Update()
-    {
-        if (Input.touchCount == 2)
+        up.onClick.AddListener(() =>
         {
-            Touch firstTouch = Input.GetTouch (0);
-            Touch secondTouch = Input.GetTouch (1);
-
-            touchesCurPosDifference = (firstTouch.position - secondTouch.position).magnitude;
-            
-            zoomModifier = touchesCurPosDifference;
-            if (zoomBefore > zoomModifier)
-            {
-                OnZoom(-1);
-            }
-            else
-            {
-                OnZoom(1);
-            }
-            zoomBefore = zoomModifier;
-        }
+            OnZoom(1);
+        });
+        down.onClick.AddListener(() =>
+        {
+            OnZoom(-1);
+        });
     }
 
     public void OnScroll(PointerEventData eventData)
@@ -55,7 +41,6 @@ public class UIZoomImage : MonoBehaviour, IScrollHandler
 
     private void OnZoom(float scrollDeltaY)
     {
-        debug.text = $"scrollDeltaY {scrollDeltaY}";
         var delta = Vector3.one * (scrollDeltaY * zoomSpeed);
         var desiredScale = transform.localScale + delta;
         desiredScale = ClampDesiredScale(desiredScale);
