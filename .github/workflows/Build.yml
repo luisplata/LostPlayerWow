@@ -6,6 +6,7 @@ on:
   workflow_dispatch: {}
   pull_request:
     branches: [ main ]
+  push:
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
